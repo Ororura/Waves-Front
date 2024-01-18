@@ -1,23 +1,33 @@
-import logo from './logo.svg';
 import './App.css';
+import {useEffect, useState} from "react";
+import Service from "./Service";
 
 function App() {
+  const [suppData, setSuppData] = useState({});
+  const [distData, setDistData] = useState({});
+  useEffect(() => {
+    (async () => {
+      // console.log(Service.getData());
+      await Service.getSupp().then((el) => {
+        setSuppData(el.data)
+        console.log(el.data)
+      });
+      await Service.getDist().then((el) => {
+        console.log(el.data)
+        setDistData(JSON.parse(el.data.value))
+      })
+
+
+    })()
+  }, []);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <p> {distData.companyName} </p>
+      <p> {distData.suppDesc} </p>
+      <p> {distData.firstName} </p>
+      <p> {distData.lastName} </p>
+      <p> {distData.phone} </p>
+      <p> {distData.key} </p>
     </div>
   );
 }
