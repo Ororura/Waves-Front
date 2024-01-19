@@ -46,10 +46,15 @@ class Service {
     }
   }
 
-  async createUser(name) {
+  async getUser(name) {
+    try {
+    } catch (e) {}
+  }
+
+  async createUser(name, password) {
     try {
       return await axios.post(this.url + "/transactions/signAndBroadcast", {
-        contractId: "H984HFW3o2Ku3hzU3TQGmUKXnMeKrHdNMgsx6XURBB6V",
+        contractId: "EKnbLByBpqBzkGKMekLq8PnFU95WWpVQ3B3UQgVDxwiy",
         fee: 10,
         sender: "3NjpGwi1pr4Soak5QGYGp6H6HYUmUcmeiHk",
         password: "iduWZ1Ljz3KsnXdNsjjp4g",
@@ -57,13 +62,13 @@ class Service {
         params: [
           {
             type: "string",
-            value: "createRef",
+            value: "addUser",
             key: "action",
           },
           {
             type: "string",
-            value: name,
-            key: "createRef",
+            value: { login: `${name}`, password: `${password}` },
+            key: "addUser",
           },
         ],
         version: 1,
