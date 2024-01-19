@@ -6,18 +6,23 @@ import "bootstrap/dist/css/bootstrap.css";
 import { Container } from "../HOC/Container";
 import { Registration } from "../registration/Registration";
 import { Ref } from "../ref/Ref";
+import { Login } from "../login/Login";
+import { ContextWrapper } from "../../core/Context";
 
 function App() {
   const [suppData, setSuppData] = useState({});
   const [distData, setDistData] = useState({});
 
   return (
-    <Container>
-      <div className="App">
-        <Registration />
-        <Ref />
-      </div>
-    </Container>
+    <ContextWrapper>
+      <Container>
+        <div className="App">
+          <Registration />
+          <Ref />
+          <Login />
+        </div>
+      </Container>
+    </ContextWrapper>
   );
 }
 
