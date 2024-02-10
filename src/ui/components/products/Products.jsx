@@ -9,13 +9,15 @@ export const Products = () => {
 
   useEffect(() => {
     ;(async () => {
-      await Service.get({
-        endpoint: `contracts/${addressContract}/USERS_PRODUCT_${user.login}`,
-      }).then(data => {
-        if (data.error !== 304) {
-          setProduct(JSON.parse(data.value))
-        }
-      })
+      if (user.login) {
+        await Service.get({
+          endpoint: `contracts/${addressContract}/USERS_PRODUCT_${user.login}`,
+        }).then(data => {
+          if (data.error !== 304) {
+            setProduct(JSON.parse(data.value))
+          }
+        })
+      }
     })()
   }, [])
 

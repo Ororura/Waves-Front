@@ -32,7 +32,7 @@ export const Header = ({ children }) => {
                       handlerPush(e, '/registration')
                     }}
                   >
-                    Зарегстрироваться
+                    Зарегистрироваться
                   </Nav.Link>
                 </>
               )}
