@@ -8,7 +8,7 @@ export const Login = () => {
   const { login, user } = useContext(Context)
   const nav = useHistory()
   useEffect(() => {
-    if (user !== '') nav.push('/personal')
+    if (user.length !== 0) nav.push('/personal')
   }, [user])
   const handlerLog = async e => {
     e.preventDefault()

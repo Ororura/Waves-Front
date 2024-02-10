@@ -18,7 +18,7 @@ export const Header = ({ children }) => {
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='me-auto'>
-              {user === '' && (
+              {user.length === 0 && (
                 <>
                   <Nav.Link
                     onClick={e => {
@@ -32,27 +32,29 @@ export const Header = ({ children }) => {
                       handlerPush(e, '/registration')
                     }}
                   >
-                    Зарегестрироваться
+                    Зарегстрироваться
                   </Nav.Link>
                 </>
               )}
-              {user !== '' && (
-                <Nav.Link
-                  onClick={e => {
-                    handlerPush(e, '/')
-                    setUser('')
-                  }}
-                >
-                  Выйти
-                </Nav.Link>
+              {user.login && (
+                <>
+                  <Nav.Link
+                    onClick={e => {
+                      handlerPush(e, '/')
+                      setUser([])
+                    }}
+                  >
+                    Выйти
+                  </Nav.Link>
+                  <Nav.Link
+                    onClick={e => {
+                      handlerPush(e, '/personal')
+                    }}
+                  >
+                    Личный кабинет
+                  </Nav.Link>
+                </>
               )}
-              <Nav.Link
-                onClick={e => {
-                  handlerPush(e, '/personal')
-                }}
-              >
-                Личный кабинет
-              </Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
