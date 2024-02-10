@@ -1,29 +1,29 @@
 class Service {
-  url = `http://localhost:6882`;
+  url = `http://localhost:6882`
 
   async post(body) {
-    console.log(body.params);
+    console.log(body.params)
     return await (
       await fetch(`${this.url}/${body.endpoint}`, {
         body: body.params,
         headers: {
-          "Content-Type": "application/json;charset=utf-8",
+          'Content-Type': 'application/json;charset=utf-8',
         },
-        method: "POST",
+        method: 'POST',
       })
-    ).json();
+    ).json()
   }
 
   async get(body) {
     return await (
       await fetch(`${this.url}/${body.endpoint}`, {
         headers: {
-          "Content-type": "application/json",
+          'Content-type': 'application/json',
         },
-        method: "GET",
+        method: 'GET',
       })
-    ).json();
+    ).json()
   }
 }
 
-export default new Service();
+export default new Service()

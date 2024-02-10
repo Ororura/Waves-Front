@@ -3,12 +3,13 @@ import { Button, Form } from 'react-bootstrap'
 import { Context } from '../../../core/Context'
 
 export const NewUsers = () => {
-  const { getNewUsers, newUsers, user, approveCreateUser } = useContext(Context)
+  const { getNewUsers, user, newUsers, approveCreateUser } = useContext(Context)
 
   useEffect(() => {
-    ;(async () => {
+    const fetchData = async () => {
       await getNewUsers()
-    })()
+    }
+    fetchData()
   }, [getNewUsers])
 
   const handleApproveNewUser = async (e, id) => {
@@ -19,10 +20,12 @@ export const NewUsers = () => {
 
   return (
     <div>
-      {user && user.role === 'admin' && newUsers.status === 'onCheck' && (
-        <>
-          <p style={{ textAlign: 'center' }}>Новые пользователи</p>
-          {newUsers.map((user, index) => (
+      <p style={{ textAlign: 'center' }}>Новые пользователи</p>
+      {newUsers.map(
+        (elUser, index) =>
+          elUser &&
+          user.role === 'admin' &&
+          elUser.status === 'onCheck' && (
             <div key={index}>
               <div
                 style={{
@@ -35,12 +38,12 @@ export const NewUsers = () => {
                   textAlign: 'center',
                 }}
               >
-                <p>Логин: {user.login}</p>
-                <p>Роль: {user.role}</p>
-                <p>Компания: {user.companyName}</p>
-                <p>Описание поставщика: {user.suppDesc}</p>
-                <p>Номер телефона: {user.phone}</p>
-                <p>Баланс: {user.balance}</p>
+                <p>Логин: {elUser.login}</p>
+                <p>Роль: {elUser.role}</p>
+                <p>Компания: {elUser.companyName}</p>
+                <p>Описание поставщика: {elUser.suppDesc}</p>
+                <p>Номер телефона: {elUser.phone}</p>
+                <p>Баланс: {elUser.balance}</p>
               </div>
 
               <Form
@@ -57,8 +60,7 @@ export const NewUsers = () => {
                 <Button type='submit'>Отправить</Button>
               </Form>
             </div>
-          ))}
-        </>
+          ),
       )}
     </div>
   )

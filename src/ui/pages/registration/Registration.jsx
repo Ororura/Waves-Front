@@ -9,7 +9,13 @@ export const Registration = () => {
   const handlerReg = async e => {
     e.preventDefault()
     const { target } = e
-    await registration(target.name.value, target.password.value, target.role.value)
+    await registration(
+      target.name.value,
+      target.password.value,
+      target.role.value,
+      target.region.value,
+      target.regions.value,
+    )
     setCheckBox(true)
   }
   return (
@@ -24,6 +30,11 @@ export const Registration = () => {
             <Form.Label>Пароль</Form.Label>
             <Form.Control type='password' placeholder='Введите пароль' />
           </Form.Group>
+          <Form.Group className='mb-3' controlId='region'>
+            <Form.Label>Регион</Form.Label>
+            <Form.Control type='text' placeholder='Введите ваш регион доставки' />
+            <Form.Text>Пример ввода: США</Form.Text>
+          </Form.Group>
           <Form.Group className='mb-3' controlId='role'>
             <Form.Label>Выберите роль</Form.Label>
             <Form.Select aria-label='Default select example'>
@@ -32,7 +43,11 @@ export const Registration = () => {
               <option value='supplier'>Поставщик</option>
             </Form.Select>
           </Form.Group>
-
+          <Form.Group className='mb-3' controlId='regions'>
+            <Form.Label>Регионы </Form.Label>
+            <Form.Control type='text' placeholder='Введите регионы доставки' />
+            <Form.Text>Пример ввода: ИНДИЯ,США,КИТАЙ</Form.Text>
+          </Form.Group>
           <Button type='submit'>Зарегистрироваться</Button>
         </Form>
       ) : (

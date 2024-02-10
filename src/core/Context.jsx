@@ -1,11 +1,14 @@
 import { createContext, useState } from 'react'
 import Service from '../services/Service'
+
 export const Context = createContext({})
 
 export const ContextWrapper = ({ children }) => {
-  const addressContract = '9Qct73MWi1F6bF6sFn7ZKf49DKvNSj98WaayEVc5ipBz'
-  const sender = '3NwAugvmn1pP9go99QKhcDaJEbEaKkG5KsY'
-  const passwordSender = 'f8K7X6klVnBC_hSl3D7w9g'
+  const addressContract = 'EQEqZQAok3Abdbx3zRCC6GRbQCV1wiBfGNQPGdbkUcxi'
+  //win 3Nd2TPQntAvrXN3TyCY1KQr5dYJRtm9akKW CxpkVeA3E1Rx-2lShWmqEg
+  //mac 3NwAugvmn1pP9go99QKhcDaJEbEaKkG5KsY f8K7X6klVnBC_hSl3D7w9g
+  const sender = '3Nd2TPQntAvrXN3TyCY1KQr5dYJRtm9akKW'
+  const passwordSender = 'CxpkVeA3E1Rx-2lShWmqEg'
   const contractId = 1
   const [user, setUser] = useState([])
   const [orders, setOrders] = useState([])
@@ -28,7 +31,7 @@ export const ContextWrapper = ({ children }) => {
     })
   }
 
-  const registration = async (name, password, role) => {
+  const registration = async (name, password, role, region, supplyRegions) => {
     await Service.post({
       endpoint: `transactions/signAndBroadcast`,
       params: JSON.stringify({
@@ -45,12 +48,12 @@ export const ContextWrapper = ({ children }) => {
           },
           {
             type: 'string',
-            value: `{ "login": "${name}", "password": "${password}", "role": "${role}", "balance": "100000", "phone": "+78005553535", "region" : "ИНДИЯ" }`,
+            value: `{ "login": "${name}", "password": "${password}", "role": "${role}", "balance": "100000", "phone": "+78005553535", "region" : "${region}" }`,
             key: 'user',
           },
           {
             type: 'string',
-            value: 'ЯПОНИЯ,ИНДИЯ,КАНАДА',
+            value: `${supplyRegions}`,
             key: 'supplyRegions',
           },
         ],
