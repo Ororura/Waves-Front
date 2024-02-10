@@ -23,6 +23,7 @@ module.exports = {
       'warn',
       {
         endOfLine: 'auto',
+        semi: false,
       },
     ],
     'react/react-in-jsx-scope': 'off',
