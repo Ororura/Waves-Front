@@ -6,6 +6,7 @@ import { Context } from '../../../core/Context'
 export const Registration = () => {
   const { registration } = useContext(Context)
   const [checkBox, setCheckBox] = useState(false)
+  const [supplier, setSupplier] = useState('user')
   const handlerReg = async e => {
     e.preventDefault()
     const { target } = e
@@ -15,8 +16,12 @@ export const Registration = () => {
       target.role.value,
       target.region.value,
       target.regions.value,
+      target.phone.value,
+      target.company.value,
+      target.suppDesc.value,
     )
     setCheckBox(true)
+    console.log(target.company.value + target.suppDesc.value)
   }
   return (
     <div>
@@ -35,19 +40,42 @@ export const Registration = () => {
             <Form.Control type='text' placeholder='Введите ваш регион доставки' />
             <Form.Text>Пример ввода: США</Form.Text>
           </Form.Group>
+          <Form.Group className='mb-3' controlId='phone'>
+            <Form.Label>Номер телефона</Form.Label>
+            <Form.Control type='phone' placeholder='Введите ваш номер телефона' />
+          </Form.Group>
           <Form.Group className='mb-3' controlId='role'>
             <Form.Label>Выберите роль</Form.Label>
-            <Form.Select aria-label='Default select example'>
+            <Form.Select
+              onClick={e => {
+                setSupplier(e.target.value)
+              }}
+            >
               <option value='user'>Пользователь</option>
               <option value='distributor'>Дистрибутор</option>
               <option value='supplier'>Поставщик</option>
             </Form.Select>
           </Form.Group>
-          <Form.Group className='mb-3' controlId='regions'>
-            <Form.Label>Регионы </Form.Label>
-            <Form.Control type='text' placeholder='Введите регионы доставки' />
-            <Form.Text>Пример ввода: ИНДИЯ,США,КИТАЙ</Form.Text>
-          </Form.Group>
+          {supplier === 'distributor' && (
+            <Form.Group className='mb-3' controlId='regions'>
+              <Form.Label>Регионы </Form.Label>
+              <Form.Control type='text' placeholder='Введите регионы доставки' />
+              <Form.Text>Пример ввода: ИНДИЯ,США,КИТАЙ</Form.Text>
+            </Form.Group>
+          )}
+          {(supplier === 'distributor' || supplier === 'supplier') && (
+            <>
+              <Form.Group className='mb-3' controlId='company'>
+                <Form.Label>Компания </Form.Label>
+                <Form.Control type='text' placeholder='Введите название компании' />
+              </Form.Group>
+
+              <Form.Group className='mb-3' controlId='suppDesc'>
+                <Form.Label>Описание компании </Form.Label>
+                <Form.Control type='text' placeholder='Введите описание компании' />
+              </Form.Group>
+            </>
+          )}
           <Button type='submit'>Зарегистрироваться</Button>
         </Form>
       ) : (

@@ -31,7 +31,7 @@ export const ContextWrapper = ({ children }) => {
     })
   }
 
-  const registration = async (name, password, role, region, supplyRegions) => {
+  const registration = async (name, password, role, region, supplyRegions, phone, company, suppDesc) => {
     await Service.post({
       endpoint: `transactions/signAndBroadcast`,
       params: JSON.stringify({
@@ -48,7 +48,7 @@ export const ContextWrapper = ({ children }) => {
           },
           {
             type: 'string',
-            value: `{ "login": "${name}", "password": "${password}", "role": "${role}", "balance": "100000", "phone": "+78005553535", "region" : "${region}" }`,
+            value: `{ "login": "${name}", "password": "${password}", "role": "${role}", "balance": "100000", "phone": "${phone}", "region" : "${region}", "companyName": ${company}, "suppDesc": "${suppDesc}" }`,
             key: 'user',
           },
           {
