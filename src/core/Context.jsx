@@ -1,36 +1,32 @@
-import { createContext, useState } from "react";
-import Service from "../services/Service";
-export const Context = createContext({});
+import { createContext, useState } from 'react'
+import Service from '../services/Service'
+export const Context = createContext({})
 
 export const ContextWrapper = ({ children }) => {
-  const [addressContract, setAddressContract] = useState(
-    "9Qct73MWi1F6bF6sFn7ZKf49DKvNSj98WaayEVc5ipBz",
-  );
-  const [sender, setSender] = useState("3NwAugvmn1pP9go99QKhcDaJEbEaKkG5KsY");
-  const [passwordSender, setPasswordSender] = useState(
-    "f8K7X6klVnBC_hSl3D7w9g",
-  );
-  const [contractId, setContractId] = useState(1);
-  const [user, setUser] = useState([]);
-  const [orders, setOrders] = useState([]);
-  const [newUsers, setNewUsers] = useState([]);
+  const addressContract = '9Qct73MWi1F6bF6sFn7ZKf49DKvNSj98WaayEVc5ipBz'
+  const sender = '3NwAugvmn1pP9go99QKhcDaJEbEaKkG5KsY'
+  const passwordSender = 'f8K7X6klVnBC_hSl3D7w9g'
+  const contractId = 1
+  const [user, setUser] = useState([])
+  const [orders, setOrders] = useState([])
+  const [newUsers, setNewUsers] = useState([])
 
   const login = async (name, password) => {
     await Service.get({
       endpoint: `contracts/${addressContract}/USERS_${name}`,
-    }).then((el) => {
+    }).then(el => {
       if (el.error !== 304) {
-        el = JSON.parse(el.value);
+        el = JSON.parse(el.value)
         if (el.login === name && el.password === password) {
-          setUser(el);
+          setUser(el)
         } else {
-          alert("Неверные данные");
+          alert('Неверные данные')
         }
       } else {
-        alert("Такого пользователя нет");
+        alert('Такого пользователя нет')
       }
-    });
-  };
+    })
+  }
 
   const registration = async (name, password, role) => {
     await Service.post({
@@ -43,46 +39,46 @@ export const ContextWrapper = ({ children }) => {
         type: 104,
         params: [
           {
-            type: "string",
-            value: "createAccount",
-            key: "action",
+            type: 'string',
+            value: 'createAccount',
+            key: 'action',
           },
           {
-            type: "string",
+            type: 'string',
             value: `{ "login": "${name}", "password": "${password}", "role": "${role}", "balance": "100000", "phone": "+78005553535", "region" : "ИНДИЯ" }`,
-            key: "user",
+            key: 'user',
           },
           {
-            type: "string",
-            value: "ЯПОНИЯ,ИНДИЯ,КАНАДА",
-            key: "supplyRegions",
+            type: 'string',
+            value: 'ЯПОНИЯ,ИНДИЯ,КАНАДА',
+            key: 'supplyRegions',
           },
         ],
         version: 2,
         contractVersion: contractId,
       }),
-    });
-  };
+    })
+  }
 
-  const getOrder = async (login) => {
+  const getOrder = async login => {
     await Service.get({
       endpoint: `contracts/${addressContract}/ORDER_PRODUCTION_${login}`,
-    }).then((el) => {
+    }).then(el => {
       if (el.error !== 304) {
-        setOrders(JSON.parse(el.value));
+        setOrders(JSON.parse(el.value))
       }
-    });
-  };
+    })
+  }
 
   const getNewUsers = async () => {
     await Service.get({
       endpoint: `contracts/${addressContract}/__USERS`,
-    }).then((el) => {
+    }).then(el => {
       if (el.error !== 304) {
-        setNewUsers(JSON.parse(el.value));
+        setNewUsers(JSON.parse(el.value))
       }
-    });
-  };
+    })
+  }
 
   const approveCreateUser = async (id, status) => {
     await Service.post({
@@ -95,31 +91,31 @@ export const ContextWrapper = ({ children }) => {
         type: 104,
         params: [
           {
-            type: "string",
-            value: "approveCreateUser",
-            key: "action",
+            type: 'string',
+            value: 'approveCreateUser',
+            key: 'action',
           },
           {
-            type: "string",
+            type: 'string',
             value: `${id}`,
-            key: "id",
+            key: 'id',
           },
           {
-            type: "string",
+            type: 'string',
             value: `${status}`,
-            key: "status",
+            key: 'status',
           },
           {
-            type: "string",
+            type: 'string',
             value: `${user.login}`,
-            key: "sender",
+            key: 'sender',
           },
         ],
         version: 2,
         contractVersion: contractId,
       }),
-    });
-  };
+    })
+  }
 
   const values = {
     approveCreateUser,
@@ -132,6 +128,6 @@ export const ContextWrapper = ({ children }) => {
     user,
     setUser,
     orders,
-  };
-  return <Context.Provider value={values}>{children}</Context.Provider>;
-};
+  }
+  return <Context.Provider value={values}>{children}</Context.Provider>
+}

@@ -1,21 +1,21 @@
-import * as React from "react";
-import { useContext } from "react";
-import { Context } from "../../../core/Context";
+import * as React from 'react'
+import { useContext } from 'react'
+import { Context } from '../../../core/Context'
 
 export const UserData = () => {
-  const { user } = useContext(Context);
+  const { user } = useContext(Context)
   return (
     <>
-      <p style={{ textAlign: "center" }}>Данные пользователя</p>
+      <p style={{ textAlign: 'center' }}>Данные пользователя</p>
       <div
         style={{
-          backgroundColor: "purple",
-          color: "white",
-          fontSize: "25px",
-          borderRadius: "15px",
-          marginTop: "20px",
-          padding: "10px",
-          textAlign: "center",
+          backgroundColor: 'purple',
+          color: 'white',
+          fontSize: '25px',
+          borderRadius: '15px',
+          marginTop: '20px',
+          padding: '10px',
+          textAlign: 'center',
         }}
       >
         <p>Логин: {user.login}</p>
@@ -26,5 +26,5 @@ export const UserData = () => {
         <p>Баланс: {user.balance}</p>
       </div>
     </>
-  );
-};
+  )
+}
