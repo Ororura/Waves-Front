@@ -1,21 +1,24 @@
 import * as React from "react";
+import { useContext, useEffect } from "react";
+import { Context } from "../../../core/Context";
 import { Button, Form } from "react-bootstrap";
-import Service from "../../services/Service";
-import { useContext } from "react";
-import { Context } from "../../core/Context";
+import { useHistory } from "react-router-dom";
 
-export const Registration = () => {
-  const { registration } = useContext(Context);
-  const handlerReg = async (e) => {
+export const Login = () => {
+  const { login, user } = useContext(Context);
+  const nav = useHistory();
+  useEffect(() => {
+    if (user !== "") nav.push("/personal");
+  }, [user]);
+  const handlerLog = async (e) => {
     e.preventDefault();
     const { target } = e;
-    console.log(target.name.value);
-    console.log(target.password.value);
-    await registration(target.name.value, target.password.value);
+    await login(target.name.value, target.password.value);
   };
   return (
     <div>
-      <Form onSubmit={handlerReg}>
+      <Form onSubmit={handlerLog}>
+        <Form.Label>Авторизоваться</Form.Label>
         <Form.Group className="mb-3" controlId="name">
           <Form.Label>Логин</Form.Label>
           <Form.Control type="text" placeholder="Введите логин" />
@@ -24,7 +27,7 @@ export const Registration = () => {
           <Form.Label>Пароль</Form.Label>
           <Form.Control type="password" placeholder="Введите пароль" />
         </Form.Group>
-        <Button type="submit">Зарегестрироваться</Button>
+        <Button type="submit">Авторизоваться</Button>
       </Form>
     </div>
   );

@@ -1,5 +1,3 @@
-import axios from "axios";
-
 class Service {
   url = `http://localhost:6882`;
 

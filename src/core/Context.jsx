@@ -1,72 +1,137 @@
 import { createContext, useState } from "react";
 import Service from "../services/Service";
-
 export const Context = createContext({});
 
 export const ContextWrapper = ({ children }) => {
-  const [user, setUser] = useState("");
   const [addressContract, setAddressContract] = useState(
-    "FyYjv2vyaQ3a5PA293TiRJM1vDKsuismUBUTquVJDtao",
+    "9Qct73MWi1F6bF6sFn7ZKf49DKvNSj98WaayEVc5ipBz",
   );
-  const [ref, setRef] = useState("");
-  console.log(addressContract);
+  const [sender, setSender] = useState("3NwAugvmn1pP9go99QKhcDaJEbEaKkG5KsY");
+  const [passwordSender, setPasswordSender] = useState(
+    "f8K7X6klVnBC_hSl3D7w9g",
+  );
+  const [contractId, setContractId] = useState(1);
+  const [user, setUser] = useState([]);
+  const [orders, setOrders] = useState([]);
+  const [newUsers, setNewUsers] = useState([]);
 
-  const getRef = async (name) => {
+  const login = async (name, password) => {
     await Service.get({
-      endpoint: `contracts/${addressContract}/REF_${name}`,
+      endpoint: `contracts/${addressContract}/USERS_${name}`,
     }).then((el) => {
-      console.log(el);
       if (el.error !== 304) {
-        setRef(JSON.parse(el.value));
+        el = JSON.parse(el.value);
+        if (el.login === name && el.password === password) {
+          setUser(el);
+        } else {
+          alert("Неверные данные");
+        }
+      } else {
+        alert("Такого пользователя нет");
       }
     });
   };
 
-  const login = async (name, password) => {
-    const data = await Service.get({
-      endpoint: `contracts/${addressContract}/USERS_${name}`,
-    });
-    console.log(data);
-    if (
-      JSON.parse(data.value).login === name &&
-      JSON.parse(data.value).password === password
-    ) {
-      setUser(JSON.parse(data.value).login);
-      getRef(JSON.parse(data.value).login);
-    } else {
-      alert("Неверные данные");
-    }
-  };
-
-  const registration = async (name, password) => {
+  const registration = async (name, password, role) => {
     await Service.post({
       endpoint: `transactions/signAndBroadcast`,
       params: JSON.stringify({
         contractId: `${addressContract}`,
-        fee: 10,
-        sender: "3NjpGwi1pr4Soak5QGYGp6H6HYUmUcmeiHk",
-        password: "iduWZ1Ljz3KsnXdNsjjp4g",
+        fee: 0,
+        sender: `${sender}`,
+        password: `${passwordSender}`,
         type: 104,
         params: [
           {
             type: "string",
-            value: "addUser",
+            value: "createAccount",
             key: "action",
           },
           {
             type: "string",
-            value: JSON.stringify({
-              login: name,
-              password: password,
-            }),
-            key: "addUser",
+            value: `{ "login": "${name}", "password": "${password}", "role": "${role}", "balance": "100000", "phone": "+78005553535", "region" : "ИНДИЯ" }`,
+            key: "user",
+          },
+          {
+            type: "string",
+            value: "ЯПОНИЯ,ИНДИЯ,КАНАДА",
+            key: "supplyRegions",
           },
         ],
-        version: 1,
-        contractVersion: 1,
+        version: 2,
+        contractVersion: contractId,
       }),
     });
   };
-  const values = { login, addressContract, registration, user, ref, getRef };
+
+  const getOrder = async (login) => {
+    await Service.get({
+      endpoint: `contracts/${addressContract}/ORDER_PRODUCTION_${login}`,
+    }).then((el) => {
+      if (el.error !== 304) {
+        setOrders(JSON.parse(el.value));
+      }
+    });
+  };
+
+  const getNewUsers = async () => {
+    await Service.get({
+      endpoint: `contracts/${addressContract}/__USERS`,
+    }).then((el) => {
+      if (el.error !== 304) {
+        setNewUsers(JSON.parse(el.value));
+      }
+    });
+  };
+
+  const approveCreateUser = async (id, status) => {
+    await Service.post({
+      endpoint: `transactions/signAndBroadcast`,
+      params: JSON.stringify({
+        contractId: `${addressContract}`,
+        fee: 0,
+        sender: `${sender}`,
+        password: `${passwordSender}`,
+        type: 104,
+        params: [
+          {
+            type: "string",
+            value: "approveCreateUser",
+            key: "action",
+          },
+          {
+            type: "string",
+            value: `${id}`,
+            key: "id",
+          },
+          {
+            type: "string",
+            value: `${status}`,
+            key: "status",
+          },
+          {
+            type: "string",
+            value: `${user.login}`,
+            key: "sender",
+          },
+        ],
+        version: 2,
+        contractVersion: contractId,
+      }),
+    });
+  };
+
+  const values = {
+    approveCreateUser,
+    getNewUsers,
+    newUsers,
+    getOrder,
+    login,
+    addressContract,
+    registration,
+    user,
+    setUser,
+    orders,
+  };
   return <Context.Provider value={values}>{children}</Context.Provider>;
 };
