@@ -1,39 +1,38 @@
-import React, { useContext, useEffect } from "react";
-import { Context } from "../../../core/Context";
-import { Button, Form } from "react-bootstrap";
+import React, { useContext, useEffect } from 'react'
+import { Button, Form } from 'react-bootstrap'
+import { Context } from '../../../core/Context'
 
 export const NewUsers = () => {
-  const { getNewUsers, newUsers, user, approveCreateUser } =
-    useContext(Context);
+  const { getNewUsers, newUsers, user, approveCreateUser } = useContext(Context)
 
   useEffect(() => {
-    (async () => {
-      await getNewUsers();
-    })();
-  }, [getNewUsers]);
+    ;(async () => {
+      await getNewUsers()
+    })()
+  }, [getNewUsers])
 
   const handleApproveNewUser = async (e, id) => {
-    e.preventDefault();
-    const { target } = e;
-    await approveCreateUser(id, target.status.value);
-  };
+    e.preventDefault()
+    const { target } = e
+    await approveCreateUser(id, target.status.value)
+  }
 
   return (
     <div>
-      {user && user.role === "admin" && newUsers.status === "onCheck" && (
+      {user && user.role === 'admin' && newUsers.status === 'onCheck' && (
         <>
-          <p style={{ textAlign: "center" }}>Новые пользователи</p>
+          <p style={{ textAlign: 'center' }}>Новые пользователи</p>
           {newUsers.map((user, index) => (
             <div key={index}>
               <div
                 style={{
-                  backgroundColor: "purple",
-                  color: "white",
-                  fontSize: "25px",
-                  borderRadius: "15px",
-                  marginTop: "20px",
-                  padding: "10px",
-                  textAlign: "center",
+                  backgroundColor: 'purple',
+                  color: 'white',
+                  fontSize: '25px',
+                  borderRadius: '15px',
+                  marginTop: '20px',
+                  padding: '10px',
+                  textAlign: 'center',
                 }}
               >
                 <p>Логин: {user.login}</p>
@@ -45,22 +44,22 @@ export const NewUsers = () => {
               </div>
 
               <Form
-                onSubmit={(e) => {
-                  handleApproveNewUser(e, index);
+                onSubmit={e => {
+                  handleApproveNewUser(e, index)
                 }}
               >
-                <Form.Group className="mb-3" controlId="status">
-                  <Form.Select aria-label="Default select example">
-                    <option value="true">Зарегистрировать</option>
-                    <option value="false">Отказать</option>
+                <Form.Group className='mb-3' controlId='status'>
+                  <Form.Select aria-label='Default select example'>
+                    <option value='true'>Зарегистрировать</option>
+                    <option value='false'>Отказать</option>
                   </Form.Select>
                 </Form.Group>
-                <Button type="submit">Отправить</Button>
+                <Button type='submit'>Отправить</Button>
               </Form>
             </div>
           ))}
         </>
       )}
     </div>
-  );
-};
+  )
+}
