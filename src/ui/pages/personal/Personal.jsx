@@ -8,10 +8,10 @@ import { useContext } from 'react'
 import { Context } from '../../../core/Context'
 import { CreateOrder } from '../../components/createOrder/CreateOrder'
 import { CreateProduct } from '../../components/createProduct/CreateProduct'
+import { ApproveProductCard } from '../../components/approveProductCard/ApproveProductCard'
 
 export const Personal = () => {
   const { user } = useContext(Context)
-  console.log(user.role)
   return (
     <div>
       <UserData></UserData>
@@ -21,6 +21,7 @@ export const Personal = () => {
       {user.role === 'admin' && <NewUsers></NewUsers>}
       {user.role === 'admin' && <BlockUser></BlockUser>}
       {user.role === 'supplier' && <CreateProduct></CreateProduct>}
+      {user.role === 'admin' && <ApproveProductCard></ApproveProductCard>}
     </div>
   )
 }
