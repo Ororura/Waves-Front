@@ -7,10 +7,9 @@ export const NewUsers = () => {
   const { getNewUsers, user, newUsers, approveCreateUser } = useContext(Context)
 
   useEffect(() => {
-    const fetchData = async () => {
+    ;(async () => {
       await getNewUsers()
-    }
-    fetchData()
+    })()
   }, [getNewUsers])
 
   const handleApproveNewUser = async (e, id) => {

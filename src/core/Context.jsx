@@ -4,11 +4,11 @@ import Service from '../services/Service'
 export const Context = createContext({})
 
 export const ContextWrapper = ({ children }) => {
-  const addressContract = 'DKTHyXdT5brvKHo7vpb7R5szsj9z228HY4nsVsJVyHcF'
+  const addressContract = '5WGxE1ZMsWSvRAZ5RPksp4kpfydGt6f651bwtWAwMQTn'
   //win 3Nd2TPQntAvrXN3TyCY1KQr5dYJRtm9akKW CxpkVeA3E1Rx-2lShWmqEg
   //mac 3NwAugvmn1pP9go99QKhcDaJEbEaKkG5KsY f8K7X6klVnBC_hSl3D7w9g
-  const sender = '3Nd2TPQntAvrXN3TyCY1KQr5dYJRtm9akKW'
-  const passwordSender = 'CxpkVeA3E1Rx-2lShWmqEg'
+  const sender = '3NwAugvmn1pP9go99QKhcDaJEbEaKkG5KsY'
+  const passwordSender = 'f8K7X6klVnBC_hSl3D7w9g'
   const contractId = 1
   const [user, setUser] = useState([])
   const [orders, setOrders] = useState([])
@@ -28,6 +28,25 @@ export const ContextWrapper = ({ children }) => {
         }
       } else {
         alert('Такого пользователя нет')
+      }
+    })
+  }
+  const getNewUsers = async () => {
+    await Service.get({
+      endpoint: `contracts/${addressContract}/__USERS`,
+    }).then(el => {
+      if (el.error !== 304) {
+        setNewUsers(JSON.parse(el.value))
+      }
+    })
+  }
+
+  const getOrderProd = async () => {
+    await Service.get({
+      endpoint: `contracts/${addressContract}/__orders`,
+    }).then(data => {
+      if (data.error !== 304) {
+        setOrders(JSON.parse(data.value))
       }
     })
   }
@@ -101,26 +120,6 @@ export const ContextWrapper = ({ children }) => {
     })
   }
 
-  const getOrder = async login => {
-    await Service.get({
-      endpoint: `contracts/${addressContract}/ORDER_PRODUCTION_${login}`,
-    }).then(el => {
-      if (el.error !== 304) {
-        setOrders(JSON.parse(el.value))
-      }
-    })
-  }
-
-  const getNewUsers = async () => {
-    await Service.get({
-      endpoint: `contracts/${addressContract}/__USERS`,
-    }).then(el => {
-      if (el.error !== 304) {
-        setNewUsers(JSON.parse(el.value))
-      }
-    })
-  }
-
   const createOrder = async (id, amount, date, price, company) => {
     await Service.post({
       endpoint: 'transactions/signAndBroadcast',
@@ -156,7 +155,6 @@ export const ContextWrapper = ({ children }) => {
     })
   }
 
-  //TODO Сделать approve карточки от лица оператора
   const approveCard = async (company, id, approveStatus, min, max, dist) => {
     await Service.post({
       endpoint: 'transactions/signAndBroadcast',
@@ -297,7 +295,7 @@ export const ContextWrapper = ({ children }) => {
     approveCreateUser,
     getNewUsers,
     newUsers,
-    getOrder,
+    getOrderProd,
     login,
     addressContract,
     registration,
