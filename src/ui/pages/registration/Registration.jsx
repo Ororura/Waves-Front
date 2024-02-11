@@ -8,6 +8,9 @@ export const Registration = () => {
   const { registration } = useContext(Context)
   const [checkBox, setCheckBox] = useState(false)
   const [supplier, setSupplier] = useState('user')
+  const [regions, setRegions] = useState('null')
+  const [company, setCompany] = useState('null')
+  const [suppDesc, setSuppDesc] = useState('')
 
   const handlerReg = async e => {
     e.preventDefault()
@@ -17,10 +20,10 @@ export const Registration = () => {
       target.password.value,
       target.role.value,
       target.region.value,
-      target.regions.value,
+      regions,
       target.phone.value,
-      target.company.value,
-      target.suppDesc.value,
+      company,
+      suppDesc,
     )
     setCheckBox(true)
   }
@@ -63,7 +66,12 @@ export const Registration = () => {
             {supplier === 'distributor' && (
               <Form.Group className='mb-3' controlId='regions'>
                 <Form.Label>Регионы </Form.Label>
-                <Form.Control name='regions' type='text' placeholder='Введите регионы доставки' />
+                <Form.Control
+                  onChange={e => setRegions(e.target.value)}
+                  name='regions'
+                  type='text'
+                  placeholder='Введите регионы доставки'
+                />
                 <Form.Text>Пример ввода: ИНДИЯ,США,КИТАЙ</Form.Text>
               </Form.Group>
             )}
@@ -71,12 +79,22 @@ export const Registration = () => {
               <>
                 <Form.Group className='mb-3' controlId='company'>
                   <Form.Label>Компания </Form.Label>
-                  <Form.Control name='company' type='text' placeholder='Введите название компании' />
+                  <Form.Control
+                    onChange={e => setCompany(e.target.value)}
+                    name='company'
+                    type='text'
+                    placeholder='Введите название компании'
+                  />
                 </Form.Group>
 
                 <Form.Group className='mb-3' controlId='suppDesc'>
                   <Form.Label>Описание компании </Form.Label>
-                  <Form.Control name='suppDesc' type='text' placeholder='Введите описание компании' />
+                  <Form.Control
+                    onChange={e => setSuppDesc(e.target.value)}
+                    name='suppDesc'
+                    type='text'
+                    placeholder='Введите описание компании'
+                  />
                 </Form.Group>
               </>
             )}

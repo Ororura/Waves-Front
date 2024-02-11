@@ -120,6 +120,71 @@ export const ContextWrapper = ({ children }) => {
     })
   }
 
+  const createOrder = async (id, amount, date, price, company) => {
+    await Service.post({
+      endpoint: 'transactions/signAndBroadcast',
+      params: JSON.stringify({
+        contractId: `${addressContract}`,
+        fee: 0,
+        sender: `${sender}`,
+        password: `${passwordSender}`,
+        type: 104,
+        params: [
+          {
+            type: 'string',
+            value: 'createOrderProduction',
+            key: 'action',
+          },
+          {
+            type: 'string',
+            value: `{"id": "${id}", "amount": "${amount}", "date": "${date}", "price": "${price}", "customer": "${user.login}", "company": "${company}"}`,
+            key: 'product',
+          },
+        ],
+        version: 2,
+        contractVersion: contractId,
+      }),
+    })
+  }
+
+  //TODO Сделать approve карточки от лица оператора
+  const createCardProduct = async (productName, productDesc, regions) => {
+    await Service.post({
+      endpoint: 'transactions/signAndBroadcast',
+      params: JSON.stringify({
+        contractId: `${addressContract}`,
+        fee: 0,
+        sender: `${sender}`,
+        password: `${passwordSender}`,
+        type: 104,
+        params: [
+          {
+            type: 'string',
+            value: 'createShopCard',
+            key: 'action',
+          },
+          {
+            type: 'string',
+            value: `{ "productName": "${productName}", "productDesc": "${productDesc}"}`,
+            key: 'product',
+          },
+          {
+            type: 'string',
+            value: `${regions}`,
+            key: 'regions',
+          },
+          {
+            type: 'string',
+            value: `${user.login}`,
+            key: 'sender',
+          },
+        ],
+        version: 2,
+        contractVersion: contractId,
+      }),
+    })
+  }
+
   const approveCreateUser = async (id, status) => {
     await Service.post({
       endpoint: `transactions/signAndBroadcast`,
@@ -158,6 +223,8 @@ export const ContextWrapper = ({ children }) => {
   }
 
   const values = {
+    createCardProduct,
+    createOrder,
     blockUser,
     approveCreateUser,
     getNewUsers,
