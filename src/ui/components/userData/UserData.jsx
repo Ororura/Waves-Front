@@ -1,11 +1,12 @@
 import * as React from 'react'
 import { useContext } from 'react'
 import { Context } from '../../../core/Context'
+import { Container } from '../HOC/Container'
 
 export const UserData = () => {
   const { user } = useContext(Context)
   return (
-    <>
+    <Container>
       <p style={{ textAlign: 'center' }}>Данные пользователя</p>
       <div
         style={{
@@ -25,6 +26,6 @@ export const UserData = () => {
         <p>Номер телефона: {user.phone}</p>
         <p>Баланс: {user.balance}</p>
       </div>
-    </>
+    </Container>
   )
 }

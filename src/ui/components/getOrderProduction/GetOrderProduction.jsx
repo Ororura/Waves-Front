@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { useContext, useEffect } from 'react'
 import { Context } from '../../../core/Context'
+import { Container } from '../HOC/Container'
 
 export const GetOrderProduction = () => {
   const { getOrder, user, orders } = useContext(Context)
@@ -10,7 +11,7 @@ export const GetOrderProduction = () => {
     })()
   }, [])
   return (
-    <div style={{ textAlign: 'center' }}>
+    <Container>
       <p>Ваши заказы</p>
       <div
         style={{
@@ -27,6 +28,6 @@ export const GetOrderProduction = () => {
         <p>Кол-во продуктов в заказе: {orders.amount}</p>
         <p>Ваш статус: {orders.status}</p>
       </div>
-    </div>
+    </Container>
   )
 }
