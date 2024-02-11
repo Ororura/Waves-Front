@@ -53,7 +53,7 @@ export const CreateOrder = () => {
             />
           </Form.Group>
           <Form.Group className='mb-3'>
-            <Form.Label>price</Form.Label>
+            <Form.Label>Цена</Form.Label>
             <Form.Control
               onChange={e => {
                 setPrice(e.target.value)

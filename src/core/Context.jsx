@@ -4,7 +4,7 @@ import Service from '../services/Service'
 export const Context = createContext({})
 
 export const ContextWrapper = ({ children }) => {
-  const addressContract = '6YidepB6pU5paFQ8WLXAoQiD3BXPFY7wsN1TCgaEXDKT'
+  const addressContract = 'DKTHyXdT5brvKHo7vpb7R5szsj9z228HY4nsVsJVyHcF'
   //win 3Nd2TPQntAvrXN3TyCY1KQr5dYJRtm9akKW CxpkVeA3E1Rx-2lShWmqEg
   //mac 3NwAugvmn1pP9go99QKhcDaJEbEaKkG5KsY f8K7X6klVnBC_hSl3D7w9g
   const sender = '3Nd2TPQntAvrXN3TyCY1KQr5dYJRtm9akKW'
@@ -149,9 +149,8 @@ export const ContextWrapper = ({ children }) => {
   }
 
   const getApproveCard = async () => {
-    await Service.get({ endpoint: `contracts/${addressContract}/onCheck__` }).then(data => {
+    await Service.get({ endpoint: `contracts/${addressContract}/onCheck_products` }).then(data => {
       if (data.error !== 304) {
-        console.log(JSON.parse(data.value))
         setOnCheckCard(JSON.parse(data.value))
       }
     })
