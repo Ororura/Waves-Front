@@ -6,17 +6,22 @@ import { Container } from '../HOC/Container'
 export const NewUsers = () => {
   const { getNewUsers, user, newUsers, approveCreateUser } = useContext(Context)
 
+  const handleApproveNewUser = async (e, id) => {
+    e.preventDefault()
+    const { target } = e
+    const data = await approveCreateUser(id, target.status.value)
+    if (data) {
+      setTimeout(async () => {
+        await getNewUsers()
+      }, 10000)
+    }
+  }
+
   useEffect(() => {
     ;(async () => {
       await getNewUsers()
     })()
-  }, [getNewUsers])
-
-  const handleApproveNewUser = async (e, id) => {
-    e.preventDefault()
-    const { target } = e
-    await approveCreateUser(id, target.status.value)
-  }
+  }, [])
 
   return (
     <div>
