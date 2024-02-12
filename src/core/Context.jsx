@@ -9,7 +9,7 @@ export const ContextWrapper = ({ children }) => {
   //mac 3NwAugvmn1pP9go99QKhcDaJEbEaKkG5KsY f8K7X6klVnBC_hSl3D7w9g
   const sender = '3NwAugvmn1pP9go99QKhcDaJEbEaKkG5KsY'
   const passwordSender = 'f8K7X6klVnBC_hSl3D7w9g'
-  const contractId = 1
+  const contractId = 2
   const [user, setUser] = useState([])
   const [orders, setOrders] = useState([])
   const [newUsers, setNewUsers] = useState([])
@@ -67,7 +67,7 @@ export const ContextWrapper = ({ children }) => {
   const formatOrder = async (id, amount, date) => {
     await Service.post({
       endpoint: 'transactions/signAndBroadcast',
-      body: JSON.stringify({
+      params: JSON.stringify({
         contractId: `${addressContract}`,
         fee: 0,
         sender: `${sender}`,
@@ -78,11 +78,6 @@ export const ContextWrapper = ({ children }) => {
             type: 'string',
             value: 'formatOrder',
             key: 'action',
-          },
-          {
-            type: 'string',
-            value: 'pasha',
-            key: 'requester',
           },
           {
             type: 'string',
