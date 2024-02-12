@@ -13,7 +13,7 @@ export const NewUsers = () => {
     if (data) {
       setTimeout(async () => {
         await getNewUsers()
-      }, 10000)
+      }, 5000)
     }
   }
 

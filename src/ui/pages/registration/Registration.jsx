@@ -54,7 +54,7 @@ export const Registration = () => {
               <Form.Label>Выберите роль</Form.Label>
               <Form.Select
                 name='role'
-                onClick={e => {
+                onChange={e => {
                   setSupplier(e.target.value)
                 }}
               >

@@ -4,16 +4,17 @@ import Service from '../services/Service'
 export const Context = createContext({})
 
 export const ContextWrapper = ({ children }) => {
-  const addressContract = 'FHxTaJejFua4jMbK9x6pcEurNbBG4PgHwUu4jAR9UrGK'
+  const addressContract = 'Eb5N82zAm48vfCEBihenCmEXrRdC8ETyLPmKcsQsecLp'
   //win 3Nd2TPQntAvrXN3TyCY1KQr5dYJRtm9akKW CxpkVeA3E1Rx-2lShWmqEg
   //mac 3NwAugvmn1pP9go99QKhcDaJEbEaKkG5KsY f8K7X6klVnBC_hSl3D7w9g
-  const sender = '3Nd2TPQntAvrXN3TyCY1KQr5dYJRtm9akKW'
-  const passwordSender = 'CxpkVeA3E1Rx-2lShWmqEg'
+  const sender = '3NwAugvmn1pP9go99QKhcDaJEbEaKkG5KsY'
+  const passwordSender = 'f8K7X6klVnBC_hSl3D7w9g'
   const contractId = 1
   const [user, setUser] = useState([])
   const [orders, setOrders] = useState([])
   const [newUsers, setNewUsers] = useState([])
   const [onCheckCard, setOnCheckCard] = useState([])
+  const [products, setProducts] = useState([])
 
   const login = async (name, password) => {
     await Service.get({
@@ -31,6 +32,18 @@ export const ContextWrapper = ({ children }) => {
       }
     })
   }
+
+  const getProductCards = async () => {
+    const data = await Service.get({ endpoint: `contracts/${addressContract}/__companyNames` })
+    const parseData = JSON.parse(data.value)
+    const productPromises = parseData.map(async el => {
+      const response = await Service.get({ endpoint: `contracts/${addressContract}/COMPANY_${el}` })
+      return JSON.parse(response.value)
+    })
+    const productsArray = await Promise.all(productPromises)
+    setProducts(productsArray)
+  }
+
   const getNewUsers = async () => {
     await Service.get({
       endpoint: `contracts/${addressContract}/__USERS`,
@@ -51,6 +64,52 @@ export const ContextWrapper = ({ children }) => {
     })
   }
 
+  const formatOrder = async (id, amount, date) => {
+    await Service.post({
+      endpoint: 'transactions/signAndBroadcast',
+      body: JSON.stringify({
+        contractId: `${addressContract}`,
+        fee: 0,
+        sender: `${sender}`,
+        password: `${passwordSender}`,
+        type: 104,
+        params: [
+          {
+            type: 'string',
+            value: 'formatOrder',
+            key: 'action',
+          },
+          {
+            type: 'string',
+            value: 'pasha',
+            key: 'requester',
+          },
+          {
+            type: 'string',
+            value: `${id}`,
+            key: 'id',
+          },
+          {
+            type: 'string',
+            value: `${amount}`,
+            key: 'amount',
+          },
+          {
+            type: 'string',
+            value: `${date}`,
+            key: 'date',
+          },
+          {
+            type: 'string',
+            value: `${user.login}`,
+            key: 'sender',
+          },
+        ],
+        version: 2,
+        contractVersion: contractId,
+      }),
+    })
+  }
   const registration = async (name, password, role, region, supplyRegions, phone, company, suppDesc) => {
     await Service.post({
       endpoint: `transactions/signAndBroadcast`,
@@ -287,6 +346,7 @@ export const ContextWrapper = ({ children }) => {
   }
 
   const values = {
+    getProductCards,
     getApproveCard,
     approveCard,
     createCardProduct,
@@ -303,6 +363,8 @@ export const ContextWrapper = ({ children }) => {
     setUser,
     orders,
     onCheckCard,
+    products,
+    formatOrder,
   }
   return <Context.Provider value={values}>{children}</Context.Provider>
 }

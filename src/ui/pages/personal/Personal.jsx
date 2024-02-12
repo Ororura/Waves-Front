@@ -10,6 +10,8 @@ import { CreateOrder } from '../../components/createOrder/CreateOrder'
 import { CreateProduct } from '../../components/createProduct/CreateProduct'
 import { ApproveProductCard } from '../../components/approveProductCard/ApproveProductCard'
 import { useHistory } from 'react-router-dom'
+import { GetProductCards } from '../../components/getProductCards/GetProductCards'
+import { FormatOrder } from '../../components/formatOrder/FormatOrder'
 
 export const Personal = () => {
   const { user } = useContext(Context)
@@ -23,12 +25,14 @@ export const Personal = () => {
     <div>
       <UserData></UserData>
       <CreateOrder></CreateOrder>
+      <GetProductCards></GetProductCards>
       <Products></Products>
       <GetOrderProduction></GetOrderProduction>
       {user.role === 'admin' && <NewUsers></NewUsers>}
       {user.role === 'admin' && <BlockUser></BlockUser>}
       {user.role === 'supplier' && <CreateProduct></CreateProduct>}
       {user.role === 'admin' && <ApproveProductCard></ApproveProductCard>}
+      {user.role === 'distributor' && <FormatOrder></FormatOrder>}
     </div>
   )
 }
