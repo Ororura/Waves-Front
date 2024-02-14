@@ -1,26 +1,28 @@
-import * as React from 'react'
-import { useContext, useEffect, useState } from 'react'
-import { Context } from '../../../core/Context'
-import { Container } from '../HOC/Container'
-import { Button, Form } from 'react-bootstrap'
+import * as React from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { Context } from '../../../core/Context';
+import { Container } from '../HOC/Container';
+import { Button, Form } from 'react-bootstrap';
 
 export const ApproveProductCard = () => {
-  const [min, setMin] = useState(0)
-  const [max, setMax] = useState(0)
-  const [status, setStatus] = useState('true')
-  const [dist, setDist] = useState('')
-  const { onCheckCard, getApproveCard, approveCard } = useContext(Context)
+  const [min, setMin] = useState(0);
+  const [max, setMax] = useState(0);
+  const [status, setStatus] = useState('true');
+  const [dist, setDist] = useState('');
+  const { onCheckCard, getApproveCard, approveCard } = useContext(Context);
 
   const handlerApproveCard = async (e, idx) => {
-    e.preventDefault()
-    await approveCard(onCheckCard[idx].companyName, idx, status, min, max, dist)
-  }
+    e.preventDefault();
+    await approveCard(onCheckCard[idx].companyName, idx, status, min, max, dist);
+    setTimeout(async () => {
+      await getApproveCard();
+    }, 5000);
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      await getApproveCard()
-    }
-    fetchData()
-  }, [])
+    (async () => {
+      await getApproveCard();
+    })();
+  }, []);
 
   return (
     <div>
@@ -45,13 +47,13 @@ export const ApproveProductCard = () => {
 
                   <Form
                     onSubmit={e => {
-                      handlerApproveCard(e, index)
+                      handlerApproveCard(e, index);
                     }}
                   >
                     <Form.Group className='mb-3' controlId='status'>
                       <Form.Select
                         onClick={e => {
-                          setStatus(e.target.value)
+                          setStatus(e.target.value);
                         }}
                       >
                         <option value='true'>Подтвердить</option>
@@ -62,7 +64,7 @@ export const ApproveProductCard = () => {
                       <Form.Label>Минимальное кол-во товаров</Form.Label>
                       <Form.Control
                         onChange={e => {
-                          setMin(e.target.value)
+                          setMin(e.target.value);
                         }}
                         type='number'
                         placeholder='Введите минимальное кол-во товаров'
@@ -72,7 +74,7 @@ export const ApproveProductCard = () => {
                       <Form.Label>Макисмальное кол-во товаров</Form.Label>
                       <Form.Control
                         onChange={e => {
-                          setMax(e.target.value)
+                          setMax(e.target.value);
                         }}
                         type='text'
                         placeholder='Введите максимальное кол-во товаров'
@@ -82,7 +84,7 @@ export const ApproveProductCard = () => {
                       <Form.Label>Поставщики</Form.Label>
                       <Form.Control
                         onChange={e => {
-                          setDist(e.target.value)
+                          setDist(e.target.value);
                         }}
                         type='text'
                         placeholder='Введите поставщиков'
@@ -96,5 +98,5 @@ export const ApproveProductCard = () => {
             ),
         )}
     </div>
-  )
-}
+  );
+};

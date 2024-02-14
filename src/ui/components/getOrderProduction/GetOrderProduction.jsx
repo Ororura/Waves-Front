@@ -1,15 +1,15 @@
-import * as React from 'react'
-import { useContext, useEffect } from 'react'
-import { Context } from '../../../core/Context'
-import { Container } from '../HOC/Container'
+import * as React from 'react';
+import { useContext, useEffect } from 'react';
+import { Context } from '../../../core/Context';
+import { Container } from '../HOC/Container';
 
 export const GetOrderProduction = () => {
-  const { getOrderProd, orders } = useContext(Context)
+  const { getOrderProd, orders } = useContext(Context);
   useEffect(() => {
-    ;(async () => {
-      await getOrderProd()
-    })()
-  }, [])
+    (async () => {
+      await getOrderProd();
+    })();
+  }, []);
   return (
     <div>
       {orders &&
@@ -36,5 +36,5 @@ export const GetOrderProduction = () => {
           </Container>
         ))}
     </div>
-  )
-}
+  );
+};

@@ -1,18 +1,18 @@
-import * as React from 'react'
-import { Container } from '../HOC/Container'
-import { Button, Form } from 'react-bootstrap'
-import { useContext, useState } from 'react'
-import { Context } from '../../../core/Context'
+import * as React from 'react';
+import { Container } from '../HOC/Container';
+import { Button, Form } from 'react-bootstrap';
+import { useContext, useState } from 'react';
+import { Context } from '../../../core/Context';
 
 export const BlockUser = () => {
-  const [name, setName] = useState('')
-  const [status, setStatus] = useState('true')
-  const { blockUser } = useContext(Context)
+  const [name, setName] = useState('');
+  const [status, setStatus] = useState('true');
+  const { blockUser } = useContext(Context);
 
   const handlerBan = async e => {
-    e.preventDefault()
-    await blockUser(name, status)
-  }
+    e.preventDefault();
+    await blockUser(name, status);
+  };
   return (
     <div>
       <Container>
@@ -22,7 +22,7 @@ export const BlockUser = () => {
             <Form.Label>Пользователь</Form.Label>
             <Form.Control
               onChange={e => {
-                setName(e.target.value)
+                setName(e.target.value);
               }}
               type='text'
               placeholder='Введите логин'
@@ -33,7 +33,7 @@ export const BlockUser = () => {
             <Form.Select
               name='status'
               onClick={e => {
-                setStatus(e.target.value)
+                setStatus(e.target.value);
               }}
             >
               <option value='true'>Заблокировать</option>
@@ -44,5 +44,5 @@ export const BlockUser = () => {
         </Form>
       </Container>
     </div>
-  )
-}
+  );
+};

@@ -1,16 +1,15 @@
-import * as React from 'react'
-import { useContext, useEffect } from 'react'
-import { Context } from '../../../core/Context'
-import { Container } from '../HOC/Container'
+import * as React from 'react';
+import { useContext, useEffect } from 'react';
+import { Context } from '../../../core/Context';
+import { Container } from '../HOC/Container';
 
 export const GetProductCards = () => {
-  const { getProductCards, products } = useContext(Context)
+  const { getProductCards, products } = useContext(Context);
   useEffect(() => {
-    ;(async () => {
-      await getProductCards()
-      console.log(products)
-    })()
-  }, [])
+    (async () => {
+      await getProductCards();
+    })();
+  }, []);
   return (
     <div>
       <p style={{ textAlign: 'center' }}>Продукты в продаже</p>
@@ -44,5 +43,5 @@ export const GetProductCards = () => {
         </Container>
       ))}
     </div>
-  )
-}
+  );
+};

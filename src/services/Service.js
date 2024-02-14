@@ -1,8 +1,8 @@
 class Service {
-  url = `http://localhost:6882`
+  url = `http://localhost:6882`;
 
   async post(body) {
-    console.log(body.params)
+    console.log(body.params);
     return await (
       await fetch(`${this.url}/${body.endpoint}`, {
         body: body.params,
@@ -11,7 +11,7 @@ class Service {
         },
         method: 'POST',
       })
-    ).json()
+    ).json();
   }
 
   async get(body) {
@@ -22,8 +22,8 @@ class Service {
         },
         method: 'GET',
       })
-    ).json()
+    ).json();
   }
 }
 
-export default new Service()
+export default new Service();

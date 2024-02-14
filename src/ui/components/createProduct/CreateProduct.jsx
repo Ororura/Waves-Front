@@ -1,19 +1,19 @@
-import * as React from 'react'
-import { Container } from '../HOC/Container'
-import { Button, Form } from 'react-bootstrap'
-import { useContext, useState } from 'react'
-import { Context } from '../../../core/Context'
+import * as React from 'react';
+import { Container } from '../HOC/Container';
+import { Button, Form } from 'react-bootstrap';
+import { useContext, useState } from 'react';
+import { Context } from '../../../core/Context';
 
 export const CreateProduct = () => {
-  const [productName, setProductName] = useState()
-  const [productDesc, setProductDesc] = useState()
-  const [regions, setRegions] = useState()
-  const { createCardProduct } = useContext(Context)
+  const [productName, setProductName] = useState();
+  const [productDesc, setProductDesc] = useState();
+  const [regions, setRegions] = useState();
+  const { createCardProduct } = useContext(Context);
 
   const handlerCreateProduct = async e => {
-    e.preventDefault()
-    await createCardProduct(productName, productDesc, regions)
-  }
+    e.preventDefault();
+    await createCardProduct(productName, productDesc, regions);
+  };
   return (
     <div>
       <Container>
@@ -23,7 +23,7 @@ export const CreateProduct = () => {
             <Form.Label>Название продукта</Form.Label>
             <Form.Control
               onChange={e => {
-                setProductName(e.target.value)
+                setProductName(e.target.value);
               }}
               type='text'
               placeholder='Введите название продукта'
@@ -33,7 +33,7 @@ export const CreateProduct = () => {
             <Form.Label>Описание продукта</Form.Label>
             <Form.Control
               onChange={e => {
-                setProductDesc(e.target.value)
+                setProductDesc(e.target.value);
               }}
               type='text'
               placeholder='Введите описание продукта'
@@ -43,7 +43,7 @@ export const CreateProduct = () => {
             <Form.Label>Регионы доставки</Form.Label>
             <Form.Control
               onChange={e => {
-                setRegions(e.target.value)
+                setRegions(e.target.value);
               }}
               type='text'
               placeholder='Введите регионы доставки'
@@ -54,5 +54,5 @@ export const CreateProduct = () => {
         </Form>
       </Container>
     </div>
-  )
-}
+  );
+};

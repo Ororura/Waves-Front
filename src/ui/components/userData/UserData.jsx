@@ -22,7 +22,7 @@ export const UserData = () => {
         <p>Логин: {user.login}</p>
         <p>Роль: {user.role}</p>
         <p>Компания: {user.companyName}</p>
-        <p>Описание поставщика: {user.suppDesc}</p>
+        <p>Описание компании: {user.suppDesc}</p>
         <p>Номер телефона: {user.phone}</p>
         <p>Баланс: {user.balance}</p>
       </div>

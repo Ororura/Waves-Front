@@ -1,9 +1,9 @@
-import './App.css'
-import 'bootstrap/dist/css/bootstrap.css'
-import { ContextWrapper } from '../../core/Context'
-import { Header } from '../components/HOC/Header'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import { routes } from '../../constants/routes'
+import './App.css';
+import 'bootstrap/dist/css/bootstrap.css';
+import { ContextWrapper } from '../../core/Context';
+import { Header } from '../components/HOC/Header';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { routes } from '../../constants/routes';
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
         </Header>
       </ContextWrapper>
     </BrowserRouter>
-  )
+  );
 }
 
-export default App
+export default App;

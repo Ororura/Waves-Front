@@ -1,17 +1,17 @@
-import * as React from 'react'
-import { Container } from '../HOC/Container'
-import { useContext } from 'react'
-import { Context } from '../../../core/Context'
-import { Button, Form } from 'react-bootstrap'
+import * as React from 'react';
+import { Container } from '../HOC/Container';
+import { useContext } from 'react';
+import { Context } from '../../../core/Context';
+import { Button, Form } from 'react-bootstrap';
 
 //TODO Заказ успешко формируется в __orders, нужно доделать форму для апрува дистрибутора
 export const FormatOrder = () => {
-  const { orders, formatOrder } = useContext(Context)
+  const { orders, formatOrder } = useContext(Context);
   const handlerFormat = async (e, idx) => {
-    e.preventDefault()
-    const { target } = e
-    await formatOrder(idx, target.amount.value, target.date.value)
-  }
+    e.preventDefault();
+    const { target } = e;
+    await formatOrder(idx, target.amount.value, target.date.value);
+  };
   return (
     <div>
       <p style={{ textAlign: 'center' }}>Подтвердить заказ</p>
@@ -36,7 +36,7 @@ export const FormatOrder = () => {
                 <p>Ваш статус: {orders.status}</p>
                 <Form
                   onSubmit={e => {
-                    handlerFormat(e, idx)
+                    handlerFormat(e, idx);
                   }}
                 >
                   <Form.Group className='mb-3' controlId='amount'>
@@ -57,5 +57,5 @@ export const FormatOrder = () => {
           </Container>
         ))}
     </div>
-  )
-}
+  );
+};

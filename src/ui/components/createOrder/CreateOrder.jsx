@@ -1,22 +1,23 @@
-import * as React from 'react'
-import { useContext, useState } from 'react'
-import { Container } from '../HOC/Container'
-import { Button, Form } from 'react-bootstrap'
-import { Context } from '../../../core/Context'
+import * as React from 'react';
+import { useContext, useState } from 'react';
+import { Container } from '../HOC/Container';
+import { Button, Form } from 'react-bootstrap';
+import { Context } from '../../../core/Context';
 
 export const CreateOrder = () => {
-  const [id, setId] = useState(0)
-  const [amount, setAmount] = useState(0)
-  const [date, setDate] = useState('')
-  const [price, setPrice] = useState(0)
-  const [company, setCompany] = useState('')
+  const [id, setId] = useState(0);
+  const [amount, setAmount] = useState(0);
+  const [date, setDate] = useState('');
+  const [price, setPrice] = useState(0);
+  const [company, setCompany] = useState('');
+  const [preOrder, setPreOrder] = useState(true);
 
-  const { createOrder } = useContext(Context)
+  const { createOrder } = useContext(Context);
 
   const handlerCreateOrder = async e => {
-    e.preventDefault()
-    await createOrder(id, amount, date, price, company)
-  }
+    e.preventDefault();
+    await createOrder(id, amount, date, price, company, preOrder);
+  };
   return (
     <div>
       <Container>
@@ -26,7 +27,7 @@ export const CreateOrder = () => {
             <Form.Label>Id продукта</Form.Label>
             <Form.Control
               onChange={e => {
-                setId(e.target.value)
+                setId(e.target.value);
               }}
               type='number'
               placeholder='Введите id'
@@ -36,7 +37,7 @@ export const CreateOrder = () => {
             <Form.Label>Кол-во продукта</Form.Label>
             <Form.Control
               onChange={e => {
-                setAmount(e.target.value)
+                setAmount(e.target.value);
               }}
               type='number'
               placeholder='Введите кол-во продуктов'
@@ -46,7 +47,7 @@ export const CreateOrder = () => {
             <Form.Label>Дата поставки</Form.Label>
             <Form.Control
               onChange={e => {
-                setDate(e.target.value)
+                setDate(e.target.value);
               }}
               type='text'
               placeholder='Введите дату'
@@ -56,7 +57,7 @@ export const CreateOrder = () => {
             <Form.Label>Цена</Form.Label>
             <Form.Control
               onChange={e => {
-                setPrice(e.target.value)
+                setPrice(e.target.value);
               }}
               type='number'
               placeholder='Введите желаемую цену'
@@ -66,15 +67,27 @@ export const CreateOrder = () => {
             <Form.Label>Введите название компании</Form.Label>
             <Form.Control
               onChange={e => {
-                setCompany(e.target.value)
+                setCompany(e.target.value);
               }}
               type='text'
               placeholder='Название компании'
             />
           </Form.Group>
+          <Form.Group className='mb-3' controlId='preOrder'>
+            <Form.Label>Предоплата</Form.Label>
+            <Form.Select
+              name='preOrder'
+              onChange={e => {
+                setPreOrder(e.target.value);
+              }}
+            >
+              <option value='true'>Да</option>
+              <option value='false'>Нет</option>
+            </Form.Select>
+          </Form.Group>
           <Button onClick={handlerCreateOrder}>Отправить</Button>
         </Form>
       </Container>
     </div>
-  )
-}
+  );
+};
