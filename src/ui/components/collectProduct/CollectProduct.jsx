@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { Container } from '../HOC/Container';
-import { Button, Form } from 'react-bootstrap';
 import { useContext, useState } from 'react';
+import { Button, Form } from 'react-bootstrap';
 import { Context } from '../../../core/Context';
+import { Container } from '../HOC/Container';
 
 export const CollectProduct = () => {
   const [id, setId] = useState(0);
@@ -11,7 +11,7 @@ export const CollectProduct = () => {
   const handlerCollectProduct = async () => {
     const currentTime = new Date();
     const day = String(currentTime.getDate()).padStart(2, '0');
-    const month = String(currentTime.getMonth() + 1).padStart(2, '0'); // Месяцы в JavaScript начинаются с 0, поэтому добавляем 1
+    const month = String(currentTime.getMonth() + 1).padStart(2, '0');
     const year = currentTime.getFullYear();
     await collectProduct(id, `${day}.${month}.${year}`);
   };
@@ -28,16 +28,6 @@ export const CollectProduct = () => {
               }}
               type='text'
               placeholder='Введите id продукта'
-            />
-          </Form.Group>
-          <Form.Group className='mb-3' controlId='role'>
-            <Form.Label>Выберите решение</Form.Label>
-            <Form.Control
-              onChange={e => {
-                setTime(e.target.value);
-              }}
-              type='text'
-              placeholder='Введите дату продукта'
             />
           </Form.Group>
 

@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import { Container } from '../HOC/Container';
 import { Context } from '../../../core/Context';
+import { Container } from '../HOC/Container';
 
 export const AcceptOrder = () => {
   const { acceptOrder } = useContext(Context);
@@ -26,6 +26,7 @@ export const AcceptOrder = () => {
               placeholder='Введите id продукта'
             />
           </Form.Group>
+
           <Form.Group className='mb-3' controlId='role'>
             <Form.Label>Выберите решение</Form.Label>
             <Form.Select
