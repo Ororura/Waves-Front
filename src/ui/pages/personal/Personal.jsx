@@ -18,7 +18,6 @@ import { CollectProduct } from '../../components/collectProduct/CollectProduct';
 export const Personal = () => {
   const { user } = useContext(Context);
   const nav = useHistory();
-
   const currentTime = new Date();
   const day = String(currentTime.getDate()).padStart(2, '0');
   const month = String(currentTime.getMonth() + 1).padStart(2, '0'); // Месяцы в JavaScript начинаются с 0, поэтому добавляем 1

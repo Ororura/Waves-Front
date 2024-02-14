@@ -12,11 +12,11 @@ export const GetOrderProduction = () => {
   }, []);
   return (
     <div>
+      <p style={{ textAlign: 'center' }}>Ваши заказы</p>
       {orders &&
         orders.map((orders, idx) => (
           <Container key={idx}>
             <>
-              <p>Ваши заказы</p>
               <div
                 style={{
                   backgroundColor: 'purple',

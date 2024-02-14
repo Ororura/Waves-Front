@@ -1,28 +1,29 @@
-import * as React from 'react'
-import { useContext, useEffect, useState } from 'react'
-import { Context } from '../../../core/Context'
-import Service from '../../../services/Service'
+import * as React from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { Context } from '../../../core/Context';
+import Service from '../../../services/Service';
+import { Container } from '../HOC/Container';
 
 export const Products = () => {
-  const [product, setProduct] = useState([])
-  const { addressContract, user } = useContext(Context)
+  const [product, setProduct] = useState([]);
+  const { user } = useContext(Context);
 
   useEffect(() => {
-    ;(async () => {
+    (async () => {
       if (user.login) {
         await Service.get({
-          endpoint: `contracts/${addressContract}/USERS_PRODUCT_${user.login}`,
+          endpoint: `USERS_PRODUCT_${user.login}`,
         }).then(data => {
           if (data.error !== 304) {
-            setProduct(JSON.parse(data.value))
+            setProduct(JSON.parse(data.value));
           }
-        })
+        });
       }
-    })()
-  }, [])
+    })();
+  }, []);
 
   return (
-    <div>
+    <Container>
       {product.length !== 0 && (
         <>
           <p style={{ textAlign: 'center', fontSize: '25px' }}>Ваши продукты</p>
@@ -51,6 +52,6 @@ export const Products = () => {
           ))}
         </>
       )}
-    </div>
-  )
-}
+    </Container>
+  );
+};
