@@ -1,57 +1,35 @@
-import * as React from 'react';
-import { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Context } from '../../../core/Context';
-import Service from '../../../services/Service';
 import { Container } from '../HOC/Container';
 
 export const Products = () => {
-  const [product, setProduct] = useState([]);
-  const { user } = useContext(Context);
+  const { userProducts, getUserProducts } = useContext(Context);
 
   useEffect(() => {
     (async () => {
-      if (user.login) {
-        await Service.get({
-          endpoint: `USERS_PRODUCT_${user.login}`,
-        }).then(data => {
-          if (data.error !== 304) {
-            setProduct(JSON.parse(data.value));
-          }
-        });
-      }
+      getUserProducts();
     })();
   }, []);
 
   return (
-    <Container>
-      {product.length !== 0 && (
-        <>
-          <p style={{ textAlign: 'center', fontSize: '25px' }}>Ваши продукты</p>
-          {product.map((el, idx) => (
-            <div
-              key={idx}
-              style={{
-                backgroundColor: 'purple',
-                color: 'white',
-                fontSize: '25px',
-                borderRadius: '15px',
-                marginTop: '20px',
-                padding: '10px',
-                textAlign: 'center',
-              }}
-            >
+    <>
+      {userProducts.length !== 0 && (
+        <Container>
+          <p>Ваши продукты</p>
+          {userProducts.map((el, idx) => (
+            <div style={{ backgroundColor: '#673e70', borderRadius: '15px' }} key={idx}>
               <p>Название продукта: {el.productName}</p>
               <p>Описание продукта: {el.productDesc}</p>
               <p>
                 Регионы доставки:{' '}
-                {el.regions.map((el, idx) => (
-                  <span key={idx}>{el} </span>
+                {el.regions.map((region, idx) => (
+                  <span key={idx}>{region} </span>
                 ))}
               </p>
             </div>
           ))}
-        </>
+        </Container>
       )}
-    </Container>
+    </>
   );
 };

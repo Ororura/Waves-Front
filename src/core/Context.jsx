@@ -8,12 +8,11 @@ export const ContextWrapper = ({ children }) => {
   const [orders, setOrders] = useState([]);
   const [newUsers, setNewUsers] = useState([]);
   const [onCheckCard, setOnCheckCard] = useState([]);
-  const [products, setProducts] = useState([]);
+  const [shopProducts, setShopProducts] = useState([]);
+  const [userProducts, setUserProducts] = useState([]);
 
   const login = async (name, password) => {
-    await Service.get({
-      endpoint: `USERS_${name}`,
-    }).then(el => {
+    await Service.get(`USERS_${name}`).then(el => {
       if (el.error !== 304) {
         el = JSON.parse(el.value);
         if (el.login === name && el.password === password) {
@@ -28,38 +27,40 @@ export const ContextWrapper = ({ children }) => {
   };
 
   const getProductCards = async () => {
-    const data = await Service.get({ endpoint: `__companyNames` });
+    const data = await Service.get('__companyNames');
     const parseData = JSON.parse(data.value);
     const productPromises = parseData.map(async el => {
-      const response = await Service.get({ endpoint: `COMPANY_${el}` });
+      const response = await Service.get(`COMPANY_${el}`);
       return JSON.parse(response.value);
     });
     const productsArray = await Promise.all(productPromises);
-    setProducts(productsArray);
+    setShopProducts(productsArray);
   };
 
+  const getUserProducts = async () => {
+    await Service.get(`USERS_PRODUCT_${user.login}`).then(data => {
+      if (data.error !== 304) {
+        setUserProducts(JSON.parse(data.value));
+      }
+    });
+  };
   const getNewUsers = async () => {
-    await Service.get({
-      endpoint: `__USERS`,
-    }).then(el => {
+    await Service.get('__USERS').then(el => {
       if (el.error !== 304) {
         setNewUsers(JSON.parse(el.value));
       }
     });
   };
   const getApproveCard = async () => {
-    await Service.get({ endpoint: `onCheck_products` }).then(data => {
+    await Service.get('onCheck_products').then(data => {
       if (data.error !== 304) {
         setOnCheckCard(JSON.parse(data.value));
-        console.log(JSON.parse(data.value));
       }
     });
   };
 
   const getOrderProd = async () => {
-    await Service.get({
-      endpoint: `__orders`,
-    }).then(data => {
+    await Service.get('__orders').then(data => {
       if (data.error !== 304) {
         setOrders(JSON.parse(data.value));
       }
@@ -120,7 +121,16 @@ export const ContextWrapper = ({ children }) => {
       },
     ]);
   };
-  const registration = async (name, password, role, region, supplyRegions, phone, company, suppDesc) => {
+  const registration = async (
+    name,
+    password,
+    role,
+    region,
+    supplyRegions = 'null',
+    phone,
+    company = 'null',
+    suppDesc = 'null',
+  ) => {
     await Service.post([
       {
         type: 'string',
@@ -134,7 +144,7 @@ export const ContextWrapper = ({ children }) => {
       },
       {
         type: 'string',
-        value: `${supplyRegions}`,
+        value: supplyRegions,
         key: 'supplyRegions',
       },
     ]);
@@ -275,7 +285,7 @@ export const ContextWrapper = ({ children }) => {
     ]);
   };
 
-  const collectProduct = async (orderId, time) => {
+  const collectProduct = async orderId => {
     await Service.post([
       {
         type: 'string',
@@ -289,11 +299,6 @@ export const ContextWrapper = ({ children }) => {
       },
       {
         type: 'string',
-        value: `${time}`,
-        key: 'time',
-      },
-      {
-        type: 'string',
         value: `${user.login}`,
         key: 'sender',
       },
@@ -301,6 +306,7 @@ export const ContextWrapper = ({ children }) => {
   };
 
   const values = {
+    getUserProducts,
     acceptOrder,
     getProductCards,
     getApproveCard,
@@ -310,17 +316,18 @@ export const ContextWrapper = ({ children }) => {
     blockUser,
     approveCreateUser,
     getNewUsers,
-    newUsers,
     getOrderProd,
     login,
     registration,
+    formatOrder,
+    collectProduct,
     user,
+    newUsers,
     setUser,
     orders,
     onCheckCard,
-    products,
-    formatOrder,
-    collectProduct,
+    shopProducts,
+    userProducts,
   };
   return <Context.Provider value={values}>{children}</Context.Provider>;
 };

@@ -5,44 +5,23 @@ import { Container } from '../HOC/Container';
 
 export const AcceptOrder = () => {
   const { acceptOrder } = useContext(Context);
-  const [id, setId] = useState(0);
-  const [status, setStatus] = useState('true');
   const handlerAcceptOrder = async e => {
     e.preventDefault();
-    await acceptOrder(id, status);
+    const { target } = e;
+    await acceptOrder(target.id.value, target.role.value);
   };
   return (
-    <div>
-      <Container>
-        <Form>
-          <Form.Label>Подтвердить заказ</Form.Label>
-          <Form.Group className='mb-3'>
-            <Form.Label>Id заказа</Form.Label>
-            <Form.Control
-              onChange={e => {
-                setId(e.target.value);
-              }}
-              type='text'
-              placeholder='Введите id продукта'
-            />
-          </Form.Group>
-
-          <Form.Group className='mb-3' controlId='role'>
-            <Form.Label>Выберите решение</Form.Label>
-            <Form.Select
-              name='role'
-              onChange={e => {
-                setStatus(e.target.value);
-              }}
-            >
-              <option value='true'>Согласиться</option>
-              <option value='false'>Отказаться</option>
-            </Form.Select>
-          </Form.Group>
-
-          <Button onClick={handlerAcceptOrder}>Отправить</Button>
-        </Form>
-      </Container>
-    </div>
+    <Container>
+      <Form onSubmit={handlerAcceptOrder}>
+        <Form.Label>Подтвердить заказ</Form.Label>
+        <Form.Control name='id' type='text' className='mb-3' placeholder='Введите id продукта' />
+        <Form.Label>Выберите решение</Form.Label>
+        <Form.Select name='role' className='mb-3'>
+          <option value='true'>Согласиться</option>
+          <option value='false'>Отказаться</option>
+        </Form.Select>
+        <Button type='submit'>Отправить</Button>
+      </Form>
+    </Container>
   );
 };

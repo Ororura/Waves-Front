@@ -4,44 +4,42 @@ import { Context } from '../../../core/Context';
 import { Container } from '../HOC/Container';
 
 export const GetProductCards = () => {
-  const { getProductCards, products } = useContext(Context);
+  const { getProductCards, shopProducts } = useContext(Context);
   useEffect(() => {
     (async () => {
       await getProductCards();
     })();
   }, []);
   return (
-    <div>
-      <p style={{ textAlign: 'center' }}>Продукты в продаже</p>
-      {products.map((el, idx) => (
+    <>
+      {shopProducts.map((el, idx) => (
         <Container key={idx}>
-          <div style={{ backgroundColor: 'purple', padding: '20px', color: 'white', borderRadius: '15px' }}>
-            <p>Название компании: {el.companyName}</p>
-            <p>Пользователи в компании: </p>
-            {el.usersInCompany.map((user, idx) => (
-              <span key={idx}>{user}</span>
-            ))}
-            <p>Товары в магазине</p>
-            {el.companyShop.map((product, idx) => (
-              <div key={idx}>
-                <p>Id продукта: {idx}</p>
-                <p>Название товара:{product.productName}</p>
-                <p>Минимальное кол-во товара:{product.minCount}</p>
-                <p>Максимальное кол-во товара:{product.maxCount}</p>
-                <p>Название товара:{product.productName}</p>
-                <p>Поставщики:</p>
+          <p>Продукты в продаже</p>
+          <p>Название компании: {el.companyName}</p>
+          <p>Товары в магазине</p>
+          {el.companyShop.map((product, idx) => (
+            <div style={{ backgroundColor: '#673e70', borderRadius: '15px' }} key={idx}>
+              <p>Id продукта: {idx}</p>
+              <p>Название товара: {product.productName}</p>
+              <p>Минимальное кол-во товара: {product.minCount}</p>
+              <p>Максимальное кол-во товара: {product.maxCount}</p>
+              <p>Название товара: {product.productName}</p>
+              <p>
+                Поставщики:
                 {product.distributors.map((dist, idx) => (
-                  <p key={idx}>{dist}</p>
+                  <span key={idx}>{' ' + dist + ' '}</span>
                 ))}
-                <p>Регионы:</p>
+              </p>
+              <p>
+                Регионы:
                 {product.regions.map((reg, idx) => (
-                  <p key={idx}>{reg}</p>
+                  <span key={idx}>{' ' + reg + ' '}</span>
                 ))}
-              </div>
-            ))}
-          </div>
+              </p>
+            </div>
+          ))}
         </Container>
       ))}
-    </div>
+    </>
   );
 };

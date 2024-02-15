@@ -1,101 +1,62 @@
-import * as React from 'react'
-import { useContext, useState } from 'react'
-import { Button, Form } from 'react-bootstrap'
-import { Context } from '../../../core/Context'
-import { Container } from '../../components/HOC/Container'
+import * as React from 'react';
+import { useContext, useState } from 'react';
+import { Button, Form } from 'react-bootstrap';
+import { Context } from '../../../core/Context';
+import { Container } from '../../components/HOC/Container';
 
 export const Registration = () => {
-  const { registration } = useContext(Context)
-  const [checkBox, setCheckBox] = useState(false)
-  const [supplier, setSupplier] = useState('user')
-  const [regions, setRegions] = useState('null')
-  const [company, setCompany] = useState('null')
-  const [suppDesc, setSuppDesc] = useState('')
-
+  const { registration } = useContext(Context);
+  const [checkBox, setCheckBox] = useState(false);
+  const [role, setRole] = useState('user');
   const handlerReg = async e => {
-    e.preventDefault()
-    const { target } = e
+    e.preventDefault();
+    const { target } = e;
     await registration(
       target.name.value,
       target.password.value,
       target.role.value,
       target.region.value,
-      regions,
+      target.company?.value || 'null',
       target.phone.value,
-      company,
-      suppDesc,
-    )
-    setCheckBox(true)
-  }
+      target.company?.value || 'null',
+      target.companyDesc?.value || 'null',
+    );
+    setCheckBox(true);
+  };
 
   return (
     <Container>
       <div>
         {checkBox === false ? (
           <Form onSubmit={handlerReg}>
-            <Form.Group className='mb-3' controlId='name'>
-              <Form.Label>Логин</Form.Label>
-              <Form.Control name='name' type='text' placeholder='Введите логин' />
-            </Form.Group>
-            <Form.Group className='mb-3' controlId='password'>
-              <Form.Label>Пароль</Form.Label>
-              <Form.Control name='password' type='password' placeholder='Введите пароль' />
-            </Form.Group>
-            <Form.Group className='mb-3' controlId='region'>
-              <Form.Label>Регион</Form.Label>
-              <Form.Control name='region' type='text' placeholder='Введите ваш регион доставки' />
-              <Form.Text>Пример ввода: США</Form.Text>
-            </Form.Group>
-            <Form.Group className='mb-3' controlId='phone'>
-              <Form.Label>Номер телефона</Form.Label>
-              <Form.Control name='phone' type='phone' placeholder='Введите ваш номер телефона' />
-            </Form.Group>
-            <Form.Group className='mb-3' controlId='role'>
-              <Form.Label>Выберите роль</Form.Label>
-              <Form.Select
-                name='role'
-                onChange={e => {
-                  setSupplier(e.target.value)
-                }}
-              >
-                <option value='user'>Пользователь</option>
-                <option value='distributor'>Дистрибутор</option>
-                <option value='supplier'>Поставщик</option>
-              </Form.Select>
-            </Form.Group>
-            {supplier === 'distributor' && (
-              <Form.Group className='mb-3' controlId='regions'>
-                <Form.Label>Регионы </Form.Label>
-                <Form.Control
-                  onChange={e => setRegions(e.target.value)}
-                  name='regions'
-                  type='text'
-                  placeholder='Введите регионы доставки'
-                />
-                <Form.Text>Пример ввода: ИНДИЯ,США,КИТАЙ</Form.Text>
-              </Form.Group>
-            )}
-            {(supplier === 'distributor' || supplier === 'supplier') && (
+            <Form.Label>Зарегестрироваться</Form.Label>
+            <Form.Control className='mb-3' name='name' placeholder='Введите логин' />
+            <Form.Control className='mb-3' name='password' type='password' placeholder='Введите пароль' />
+            <Form.Label>Пример ввода: США</Form.Label>
+            <Form.Control className='mb-3' name='region' placeholder='Введите ваш регион доставки' />
+            <Form.Control className='mb-3' name='phone' type='phone' placeholder='Введите ваш номер телефона' />
+            <Form.Label>Выберите роль</Form.Label>
+            <Form.Select
+              className='mb-3'
+              name='role'
+              onChange={e => {
+                setRole(e.target.value);
+              }}
+            >
+              <option value='user'>Пользователь</option>
+              <option value='distributor'>Дистрибутор</option>
+              <option value='supplier'>Поставщик</option>
+            </Form.Select>
+            {role === 'distributor' && (
               <>
-                <Form.Group className='mb-3' controlId='company'>
-                  <Form.Label>Компания </Form.Label>
-                  <Form.Control
-                    onChange={e => setCompany(e.target.value)}
-                    name='company'
-                    type='text'
-                    placeholder='Введите название компании'
-                  />
-                </Form.Group>
-
-                <Form.Group className='mb-3' controlId='suppDesc'>
-                  <Form.Label>Описание компании </Form.Label>
-                  <Form.Control
-                    onChange={e => setSuppDesc(e.target.value)}
-                    name='suppDesc'
-                    type='text'
-                    placeholder='Введите описание компании'
-                  />
-                </Form.Group>
+                <Form.Label>Пример ввода: ИНДИЯ,США,КИТАЙ</Form.Label>
+                <Form.Control className='mb-3' name='regions' placeholder='Введите регионы доставки' />
+              </>
+            )}
+            {(role === 'distributor' || role === 'supplier') && (
+              <>
+                <Form.Control className='mb-3' name='company' placeholder='Введите название компании' />
+                <Form.Control className='mb-3' name='companyDesc' placeholder='Введите описание компании' />
               </>
             )}
             <Button type='submit'>Зарегистрироваться</Button>
@@ -105,5 +66,5 @@ export const Registration = () => {
         )}
       </div>
     </Container>
-  )
-}
+  );
+};

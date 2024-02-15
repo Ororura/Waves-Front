@@ -1,35 +1,35 @@
-import * as React from 'react'
-import { useContext } from 'react'
-import { Container, Nav, Navbar } from 'react-bootstrap'
-import { useHistory } from 'react-router-dom'
-import { Context } from '../../../core/Context'
+import * as React from 'react';
+import { useContext } from 'react';
+import { Container, Nav, Navbar } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
+import { Context } from '../../../core/Context';
 
 export const Header = ({ children }) => {
-  const { user, setUser } = useContext(Context)
-  const nav = useHistory()
+  const { user, setUser } = useContext(Context);
+  const nav = useHistory();
   const handlerPush = (e, path) => {
-    e.preventDefault()
-    nav.push(path)
-  }
+    e.preventDefault();
+    nav.push(path);
+  };
   return (
-    <div>
+    <>
       <Navbar style={{ backgroundColor: '#8d31b5', fontSize: '25px' }}>
         <Container>
-          <Navbar.Toggle aria-controls='basic-navbar-nav' />
-          <Navbar.Collapse id='basic-navbar-nav'>
+          <Navbar.Toggle />
+          <Navbar.Collapse>
             <Nav className='me-auto'>
               {user.length === 0 && (
                 <>
                   <Nav.Link
                     onClick={e => {
-                      handlerPush(e, '/login')
+                      handlerPush(e, '/login');
                     }}
                   >
                     Авторизоваться
                   </Nav.Link>
                   <Nav.Link
                     onClick={e => {
-                      handlerPush(e, '/registration')
+                      handlerPush(e, '/registration');
                     }}
                   >
                     Зарегистрироваться
@@ -40,15 +40,15 @@ export const Header = ({ children }) => {
                 <>
                   <Nav.Link
                     onClick={e => {
-                      handlerPush(e, '/')
-                      setUser([])
+                      handlerPush(e, '/');
+                      setUser([]);
                     }}
                   >
                     Выйти
                   </Nav.Link>
                   <Nav.Link
                     onClick={e => {
-                      handlerPush(e, '/personal')
+                      handlerPush(e, '/personal');
                     }}
                   >
                     Личный кабинет
@@ -60,6 +60,6 @@ export const Header = ({ children }) => {
         </Container>
       </Navbar>
       {children}
-    </div>
-  )
-}
+    </>
+  );
+};
